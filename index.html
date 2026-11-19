@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insight e recombinação de repertórios · Microjogo CRIACOM Vol. 14</title>
+<meta name="description" content="Linha do tempo interativa dos 43 estudos experimentais sobre insight e recombinação de repertórios (1983–2026). Microjogo CRIACOM Vol. 14 e material suplementar de Roque et al.">
+<link rel="icon" href="assets/icone.png">
+<link rel="stylesheet" href="assets/fontes.css">
+<link rel="stylesheet" href="assets/estilo.css">
+</head>
+<body>
+
+<!-- ======================= CAPA ======================= -->
+<section id="cover" aria-label="Capa">
+  <div class="wrap">
+    <div class="box">
+      <div class="top"><span>CRIACOM · MICROJOGOS</span><span class="vol">VOL. 14</span></div>
+      <h1>INSIGHT</h1>
+      <div class="sub">E RECOMBINAÇÃO DE REPERTÓRIOS, 1983–2026</div>
+      <p class="desc">Acompanhe o Boatacon pelos 43 estudos experimentais sobre insight e recombinação de repertórios publicados entre 1983 e 2026. Cada ficha lida soma pontos, libera figurinhas e gera uma anotação no caderno de pesquisa.</p>
+      <div class="band" aria-hidden="true"></div>
+      <img class="boat" id="coverBoat" alt="Boatacon, o mascote do CRIACOM, aponta para o botão de começar">
+      <div class="meta">43 ESTUDOS · 6 ESPÉCIES<br><span id="coverN">490</span> SUJEITOS NA TABELA 1</div>
+    </div>
+    <div class="side">
+      <div class="px">1 JOGADOR<br>TECLADO, MOUSE OU TOQUE</div>
+      <button class="btn hot start" id="btnStart">▶ Começar a jornada</button>
+      <button class="btn" id="btnAcervo">☰ Ir direto ao acervo</button>
+      <div class="art"><span class="kick">Material suplementar</span><br>
+        <b>Insight e recombinação de repertórios: uma revisão de escopo de estudos experimentais</b><br>
+        Roque, Silva, Oliveira, Molina, Monteverde, Knaus &amp; Neves Filho</div>
+      <div class="art"><span class="kick">Controles</span><br>Setas ← →: percorrer a linha do tempo · Enter: abrir a ficha · cada aba lida soma pontos.</div>
+      <a class="btn ghost linkbtn" id="hubCover" href="#">◀ Todos os microjogos</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= HUD ======================= -->
+<header id="hud">
+  <div class="stripes thin" aria-hidden="true"></div>
+  <div class="row">
+    <a class="logo" id="hubLogo" href="#" title="Catálogo dos microjogos do CRIACOM"><img src="assets/icone.png" alt=""><span>CRIACOM<b>MICROJOGO VOL. 14</b></span></a>
+    <nav aria-label="Telas">
+      <button class="navb" data-go="jornada">Jornada</button>
+      <button class="navb" data-go="panorama">Panorama</button>
+      <button class="navb" data-go="aparatos">Aparatos</button>
+      <button class="navb" data-go="tabela">Tabela 1</button>
+      <button class="navb" data-go="desafios">Desafios</button>
+      <button class="navb" data-go="caderno">Caderno<span class="ct" id="ctNote">0</span></button>
+      <button class="navb" data-go="album">Álbum<span class="ct" id="ctAlb">0</span></button>
+      <button class="navb" data-go="conquistas">Conquistas<span class="ct" id="ctAch">0</span></button>
+      <button class="navb" data-go="refs">Referências</button>
+      <button class="navb" data-go="sobre">Sobre</button>
+    </nav>
+    <div class="score" aria-live="polite">
+      <div><span class="lbl">PONTOS</span><span id="pts">0000</span></div>
+      <div><span class="lbl">ESTUDOS</span><span id="prog">0/43</span></div>
+      <div><span class="lbl">NÍVEL</span><span class="rank" id="rank">Calouro(a)</span></div>
+    </div>
+    <button class="icon" id="btnSound" aria-pressed="true" title="Som">♪ ON</button>
+  </div>
+  <div class="bar"><i id="pbar"></i></div>
+</header>
+
+<main>
+<!-- ======================= JORNADA ======================= -->
+<section class="screen" id="s-jornada" aria-label="Jornada">
+  <div id="tl" class="panel">
+    <div id="tlbar">
+      <div class="ttl">
+        <h2>Linha do tempo do insight <span>1917 → 2026</span></h2>
+        <p class="how"><b>Clique num estudo</b> para abrir os dados do artigo. <span class="more">Arraste a linha para percorrer os anos; cada ficha lida soma pontos e gera uma anotação no caderno do Boatacon.</span></p>
+      </div>
+      <div class="tools">
+        <div id="spchips" role="group" aria-label="Filtrar por espécie"></div>
+        <input id="fQ" type="search" placeholder="Buscar autor ou tema" aria-label="Buscar estudo">
+        <select id="fTask" aria-label="Filtrar por tarefa"><option value="">Todas as tarefas</option></select>
+        <select id="fSp" hidden aria-hidden="true"><option value="">Todas</option></select>
+        <span id="fCount"></span>
+      </div>
+    </div>
+    <div id="tlstage">
+      <div id="tlbg" aria-hidden="true"><div class="l1"></div><div class="l2"></div></div>
+      <div id="trackwrap" tabindex="0" aria-label="Linha do tempo de 1917 a 2026. Arraste ou use as setas para caminhar; Enter abre o estudo."><div id="track"></div></div>
+      <div class="tlfade l"></div><div class="tlfade r"></div>
+    </div>
+    <div id="tlfoot">
+      <div id="odo"><span class="k">ano em foco</span><span id="odoY">1917</span><span id="odoE">Prólogo</span></div>
+      <div id="mm" role="slider" tabindex="0" aria-label="Minimapa da linha do tempo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="mmIn"></div><div id="mmv"></div></div>
+      <div class="ctl"><button class="btn" id="bPrev" aria-label="Estudo anterior">◀</button><button class="btn" id="bNext" aria-label="Próximo estudo">▶</button><button class="btn hot" id="bUnread">Próximo não lido ★</button></div>
+    </div>
+  </div>
+  <section id="pans" aria-labelledby="pansT">
+    <div class="pansh"><div><div class="kick">Panoramas gerais</div><h2 id="pansT">Síntese da revisão por tema</h2></div><p>Cada painel dá acesso à aba correspondente, com os dados completos.</p></div>
+    <div id="pgrid"></div>
+  </section>
+</section>
+
+<!-- ======================= PANORAMA ======================= -->
+<section class="screen" id="s-panorama" aria-label="Panorama">
+  <div class="sech"><div><div class="kick">Panorama da área</div><h2>Números gerais da revisão</h2>
+    <p>Calculados a partir dos dados de cada estudo. Passe o mouse (ou toque) sobre as marcas para ver os detalhes.</p></div></div>
+  <div class="tiles" id="tiles"></div>
+  <div class="card panel u-mb">
+    <h3>Publicações por ano, 1983–2026</h3>
+    <p class="cap">Em cima, o acumulado; embaixo, quantos estudos saíram em cada ano. As linhas tracejadas marcam 2006 (Delage e Tobias, início da produção brasileira) e 2017 (início do aumento da produção).</p>
+    <div class="chart" id="chYear"></div>
+  </div>
+  <div class="grid2">
+    <div class="card panel"><h3>Estudos por espécie</h3><p class="cap">Número de estudos em que a espécie foi a amostra.</p><div class="chart" id="chSpS"></div></div>
+    <div class="card panel"><h3>Sujeitos por espécie</h3><p class="cap">Soma do N da Tabela 1. Não é o número de indivíduos únicos: alguns animais aparecem em mais de um estudo.</p><div class="chart" id="chSpN"></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card panel"><h3>Estudos por tarefa</h3><p class="cap">Deslocamento de caixa é o procedimento mais usado; uso de ferramenta (1983) e remoção de obstáculo (1993) são suas variações.</p><div class="chart" id="chTask"></div></div>
+    <div class="card panel"><h3>Brasil na linha do tempo</h3><p class="cap">Cada quadrado é um estudo, em ordem cronológica. Amarelo: autoria brasileira.</p>
+      <div class="brstrip" id="brStrip"></div><div id="brTxt" class="vt brtxt"></div></div>
+  </div>
+  <div class="card panel u-mb">
+    <h3>Os <span id="mosN">490</span> sujeitos, um a um</h3>
+    <p class="cap">Cada quadrado é um sujeito, agrupado por estudo. A cor diz o que aconteceu no teste, segundo a auditoria das fontes primárias. Estudos sem desfecho individual (Belo da Fonseca &amp; Haydu, 2023; Pessôa Neto, 2023) aparecem em cinza. Em Knaus (2021), os desfechos por rata foram consolidados com a autora em 19/11/2026.</p>
+    <div class="mx-legend" id="mosLeg"></div>
+    <div class="mosaic" id="mosaic"></div>
+    <p class="cap u-mt">Esta seção não apresenta uma taxa média de insight, porque os estudos contam unidades diferentes (sujeitos, testes, exposições ou subgrupos), em janelas diferentes (primeiro teste, reteste ou estudo inteiro), e classificam a topografia por critérios distintos. O mosaico mostra a distribuição dos desfechos sem somar valores que não são comparáveis.</p>
+  </div>
+  <div class="grid2">
+    <div class="card panel"><h3>Fluxo de seleção (PRISMA-ScR)</h3><p class="cap">Buscas em 2024 e 2026, mais consulta a especialistas e busca retroativa.</p><div id="prisma"></div></div>
+    <div class="card panel"><h3>Variedade terminológica</h3><p class="cap">Onze nomes em uso na literatura brasileira para o mesmo processo. Clique em cada termo para registrá-lo. A revisão sugere adotar recombinação de repertórios como descritor comum do procedimento e registrar os demais como palavras-chave.</p><div class="terms" id="terms"></div>
+      <h3 class="u-mt">Agenda de pesquisa proposta pela revisão</h3>
+      <ul class="agenda">
+        <li>Um descritor comum para o procedimento (recombinação de repertórios).</li>
+        <li>Protocolo de registro padronizado: análise quadro a quadro, critérios de topografia (latência, intervalo entre repertórios) definidos antes da coleta e observadores independentes.</li>
+        <li>Ambientes virtuais como procedimento de referência, replicável entre laboratórios.</li>
+        <li>Translação para contextos educacionais e clínicos.</li>
+        <li>Mais pluralidade de grupos e instituições, no Brasil e fora dele.</li>
+      </ul></div>
+  </div>
+</section>
+
+
+<!-- ======================= APARATOS ======================= -->
+<section class="screen" id="s-aparatos" aria-label="Aparatos">
+  <div class="sech"><div><div class="kick">Panorama dos aparatos</div><h2>Aparatos experimentais dos 43 estudos</h2>
+    <p>Os equipamentos dos 43 estudos, agrupados por tipo de tarefa. Clique num artigo para ver o aparato em destaque, com as figuras do próprio artigo quando disponíveis.</p></div></div>
+  <div class="famtabs" id="famtabs" role="tablist" aria-label="Tipos de aparato"></div>
+  <div class="famintro panel" id="famintro"></div>
+  <div class="gal" id="gal"></div>
+</section>
+<!-- ======================= TABELA 1 ======================= -->
+<section class="screen" id="s-tabela" aria-label="Tabela 1">
+  <div class="sech"><div><div class="kick">Tabela 1 interativa</div><h2>Caracterização dos 43 estudos</h2>
+    <p>Valores de RP e insight como estão no manuscrito, lado a lado com o que a auditoria das fontes primárias encontrou. Clique numa linha para abrir a ficha.</p></div>
+    <button class="btn" id="btnCsv">⇩ Baixar CSV</button></div>
+  <div class="filters">
+    <label>Espécie<select id="tSp"><option value="">Todas</option></select></label>
+    <label>Tarefa<select id="tTask"><option value="">Todas</option></select></label>
+    <label>Auditoria<select id="tFlag"><option value="">Todas</option><option value="ok">Confere</option><option value="ressalva">Com ressalva</option><option value="diverge">Diverge</option></select></label>
+    <label>Buscar<input id="tQ" type="search" size="20"></label>
+  </div>
+  <div class="t1wrap"><table class="t1" id="t1"></table></div>
+  <p class="cap u-mt">Nota do manuscrito. RP = resolução de problemas na primeira apresentação do teste (sujeitos com solução/sujeitos do grupo experimental). Insight = solução com topografia súbita e contínua, na mesma notação. nr = não reportado. <sup>a</sup> Estudos com dois ou mais experimentos; valores agregados dos grupos experimentais. <sup>b</sup> Quatro experimentos; valores consolidados com a autora em 19/11/2026 (101 ratas, 40 soluções, 32 com insight). A versão anterior do manuscrito traz N = 110, RP = 32/91 e insight não reportado. <sup>c</sup> Delineamento de grupo com tratamento estatístico; dados individuais não comparáveis à notação adotada.</p>
+</section>
+
+<!-- ======================= DESAFIOS ======================= -->
+<section class="screen" id="s-desafios" aria-label="Desafios">
+  <div class="sech"><div><div class="kick">Desafios</div><h2>Questões de revisão por era</h2>
+    <p>Três perguntas por era, todas tiradas das fichas. Cada acerto na primeira tentativa vale 20 pontos. Os desafios podem ser refeitos.</p></div></div>
+  <div class="quizcards" id="quizcards"></div>
+</section>
+
+<!-- ======================= CADERNO ======================= -->
+<section class="screen" id="s-caderno" aria-label="Caderno de pesquisa">
+  <div class="sech"><div><div class="kick">Caderno de pesquisa do Boatacon</div><h2>Anotações de leitura</h2>
+    <p>Cada ficha aberta vira uma anotação; cada era completa, um resumo. O caderno completo pode ser baixado em formato de texto.</p></div>
+    <div class="nbtools"><button class="btn" id="btnNbTxt">⇩ Baixar caderno (.txt)</button><button class="btn" id="btnCard">⇩ Cartão de progresso (.png)</button></div></div>
+  <div class="nb" id="nb"></div>
+</section>
+
+<!-- ======================= ÁLBUM ======================= -->
+<section class="screen" id="s-album" aria-label="Álbum">
+  <div class="sech"><div><div class="kick">Álbum do laboratório</div><h2>Sujeitos identificados nos estudos</h2>
+    <p>Pombos, ratos, macacos-prego, corvos, cães e pessoas com nome (ou código) próprio. Cada figurinha é liberada quando você lê a ficha do estudo.</p></div></div>
+  <div class="cards" id="albumCards"></div>
+</section>
+
+<!-- ======================= CONQUISTAS ======================= -->
+<section class="screen" id="s-conquistas" aria-label="Conquistas">
+  <div class="sech"><div><div class="kick">Conquistas</div><h2>Conquistas e níveis</h2></div></div>
+  <div class="ranks" id="ranks"></div>
+  <div class="cards" id="achCards"></div>
+</section>
+
+<!-- ======================= REFERÊNCIAS ======================= -->
+<section class="screen" id="s-refs" aria-label="Referências">
+  <div class="sech"><div><div class="kick">Referências</div><h2>Os 43 estudos e as demais fontes</h2>
+    <p>Referências com estrela são os estudos incluídos na revisão, como corrigidas na auditoria bibliográfica.</p></div>
+    <button class="btn" id="btnCopyRefs">⧉ Copiar todas</button></div>
+  <div class="refs panel card" id="refs"></div>
+</section>
+
+<!-- ======================= SOBRE ======================= -->
+<section class="screen" id="s-sobre" aria-label="Sobre">
+  <div class="sech"><div><div class="kick">Sobre este microjogo</div><h2>Microjogo Vol. 14 · CRIACOM</h2></div></div>
+  <div class="about" id="about"></div>
+</section>
+</main>
+
+<footer>
+  <div class="px">CRIACOM: CRIATIVIDADE &amp; COMPORTAMENTO · UNIVERSIDADE ESTADUAL DE LONDRINA</div>
+  <div><a id="hubFoot" href="#">Catálogo dos microjogos do CRIACOM</a> · Fontes Press Start 2P e VT323 (SIL Open Font License)</div>
+</footer>
+
+<div id="tip" role="tooltip"></div>
+<div id="toasts" aria-live="polite"></div>
+<div id="spot" role="dialog" aria-modal="true" aria-labelledby="spotTitle"><div class="sbox panel" id="sbox"></div></div>
+<div id="scrim" data-dclose></div>
+<aside id="drawer" aria-label="Dados do artigo" aria-hidden="true">
+  <div class="dbar">
+    <img id="dBoat" alt="">
+    <div class="dsay"><b>BOATACON</b><span class="txt" id="dlgTxt"></span></div>
+    <div class="dnav"><button class="btn" data-step="-1" aria-label="Estudo anterior">◀</button><button class="btn" data-step="1" aria-label="Próximo estudo">▶</button><button class="btn" data-dclose aria-label="Fechar">✕</button></div>
+  </div>
+  <article id="ficha" aria-live="polite"></article>
+</aside>
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"><div class="mbox panel" id="mbox"></div></div>
+
+<!-- Figuras dos artigos: lista em img/figuras.js (imagens na mesma pasta). Sem o arquivo, a galeria usa os esquemas. -->
+<script src="img/figuras.js"></script>
+<script src="assets/dados.js"></script>
+<script src="assets/sprites.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
