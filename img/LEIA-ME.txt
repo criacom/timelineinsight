@@ -1,0 +1,27 @@
+PASTA img/ · MICROJOGO VOL. 14
+
+Aqui ficam as 81 figuras e fotos dos artigos (42 estudos) que aparecem
+na tela Aparatos e na aba "Pergunta e método" de cada ficha.
+O estudo 29 (Bradley & Johnson, 2021) não tem figura de aparato; o site
+mostra o esquema da tarefa.
+
+Para trocar, remover ou acrescentar uma figura:
+1. Copie a imagem para esta pasta com o nome NN-k.jpg (ex.: 02-1.jpg).
+2. Abra figuras.js, encontre o estudo NN e edite a linha correspondente
+   (arquivo, figura, legenda, licenca; credito é opcional).
+   Para tirar uma figura do site, apague a linha ou comente com //.
+3. Suba a pasta inteira (index.html + img/) para o repositório do GitHub.
+
+A subpasta t/ guarda miniaturas (até 440 px) usadas na linha do tempo e
+na galeria. Se você trocar uma figura mantendo o nome, apague a miniatura
+correspondente em t/: sem ela, o site carrega a figura inteira.
+
+Chave geral: no topo de figuras.js, FIGURAS_OCULTAR_FECHADAS = true
+esconde de uma vez todas as figuras de periódicos fechados (licença
+iniciada por "©") e põe o esquema da tarefa no lugar.
+
+Cada imagem aparece com o crédito e a licença indicados em figuras.js.
+Figuras de periódicos fechados (Nature, Springer, APA, Wiley/SEAB,
+Royal Society, Taylor & Francis, Mary Ann Liebert e o extinto Behaviour
+Analysis Letters) só devem ficar publicadas com permissão do editor ou
+como reuso autorizado ao autor.
